@@ -1,30 +1,27 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:material_ui/material_ui.dart';
-
 import 'package:prep_space/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+  testWidgets('PrepSpace launches and displays its navigation tabs',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(const PrepSpaceApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    // Verify the dashboard loads.
+    expect(find.text('PREPSPACE'), findsOneWidget);
+    expect(find.text('Your preparation,'), findsOneWidget);
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+    // Verify all five navigation tabs exist.
+    expect(find.text('Home'), findsOneWidget);
+    expect(find.text('Tracker'), findsOneWidget);
+    expect(find.text('Spaces'), findsOneWidget);
+    expect(find.text('Resources'), findsOneWidget);
+    expect(find.text('Profile'), findsOneWidget);
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    // Verify navigation to the Tracker screen works.
+    await tester.tap(find.text('Tracker'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Preparation Tracker'), findsOneWidget);
   });
 }
